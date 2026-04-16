@@ -2,9 +2,34 @@ import { useState } from 'react'
 import { Icon } from '@iconify/react'
 import SectionTitle from '../components/SectionTitle'
 import IconWrapper from '../components/Icon'
-import { contactInfo } from '../data'
+import { contactInfo as defaultContactInfo } from '../data'
+import { useSiteStore } from '../store/useSiteStore'
 
 const Contact = () => {
+  const getSectionData = useSiteStore((state) => state.getSectionData)
+  const contactSection = getSectionData('contact')
+  const contactData = contactSection?.blocks?.[0] || null
+
+  const subtitle = contactData?.subtitle
+  const title = contactData?.title
+  const description = contactData?.description
+
+  const infoItems = contactData?.items?.length
+    ? contactData.items.map((item, index) => {
+        const parts = item.title.split(':')
+        const label = parts[0] ? parts[0].trim() : "Info"
+        const value = parts[1] ? parts[1].trim() : item.title
+        const defaultInfo = defaultContactInfo[index] || defaultContactInfo[0]
+        
+        return {
+          id: item.id || index,
+          label,
+          value,
+          icon: defaultInfo.icon
+        }
+      })
+    : defaultContactInfo
+
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
 
@@ -22,9 +47,9 @@ const Contact = () => {
       <div className="container-custom">
         <div className="flex justify-center">
           <SectionTitle
-            subtitle="Hubungi Kami"
-            title="Siap Memulai Penghematan Energi?"
-            description="Konsultasikan kebutuhan energi bisnis Anda bersama tim ahli kami. Gratis, tanpa komitmen."
+            subtitle={subtitle}
+            title={title}
+            description={description}
             light
           />
         </div>
@@ -34,7 +59,7 @@ const Contact = () => {
           <div className="space-y-8">
             {/* Info cards */}
             <div className="grid sm:grid-cols-2 gap-4">
-              {contactInfo.map((info) => (
+              {infoItems.map((info) => (
                 <div
                   key={info.id}
                   className="flex items-start gap-4 bg-white/10 border border-white/10

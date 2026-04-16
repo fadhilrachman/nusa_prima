@@ -1,8 +1,41 @@
+import { useSiteStore } from '../store/useSiteStore'
 import { Icon } from '@iconify/react'
 import ecomoLogo from '../assets/ecomo-logo-transparent.png'
 import ecomoProduct from '../assets/ecomo_transparent.png'
 
 const Hero = () => {
+  const getSectionData = useSiteStore((state) => state.getSectionData)
+  const heroSection = getSectionData('hero')
+  const heroData = heroSection?.blocks?.[0] || null
+
+  const subtitle = heroData?.subtitle || "Solusi Hemat Energi Berteknologi Jepang"
+  const title = heroData?.title || "Next Generation Power Saving Unit"
+  
+  // Custom logic to split "Power Saving Unit" for styling if matches expected string
+  const splitTitle = title.includes("Power Saving Unit") 
+      ? { first: title.replace("Power Saving Unit", "").trim(), highlight: "Power Saving Unit" }
+      : { first: title, highlight: "" }
+
+  const description = heroData?.description || "Unit hemat daya berteknologi mineral Tourmaline & Ferrite paten Jepang — mampu mengurangi konsumsi listrik 5–15% untuk perkantoran, industri, hotel, dan rumah sakit."
+  
+  const defaultStats = [
+    { value: 'Teknologi Paten Jepang', label: 'Satsuki Co., Ltd. — Osaka', icon: 'lucide:award' },
+    { value: 'Hemat 5–15%', label: 'Penghematan listrik terukur', icon: 'lucide:zap' },
+    { value: '3.000+ Unit', label: 'Terjual sejak 2003', icon: 'lucide:bar-chart-3' },
+  ]
+  const defaultIcons = ['lucide:award', 'lucide:zap', 'lucide:bar-chart-3']
+
+  const stats = heroData?.extra?.stats?.map((stat, i) => ({
+        value: stat.label, 
+        label: stat.value,
+        icon: defaultIcons[i] || 'lucide:check-circle'
+      }))
+
+
+  const ctaPrimary = heroData?.extra?.cta_primary || { href: '#contact', label: 'Hubungi Kami' }
+  const ctaSecondary = heroData?.extra?.cta_secondary || { href: '#product', label: 'Lihat Produk' }
+  const bgImage =  "https://images.unsplash.com/photo-1513828583688-c52646db42da?w=1920&q=80"
+
   return (
     <section
       id="home"
@@ -12,8 +45,7 @@ const Hero = () => {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105"
         style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1513828583688-c52646db42da?w=1920&q=80')",
+          backgroundImage: `url('${bgImage}')`,
         }}
       />
 
@@ -40,17 +72,21 @@ const Hero = () => {
                   <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-cyan-400 opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-300" />
                 </span>
-                Solusi Hemat Energi Berteknologi Jepang
+                {subtitle}
               </span>
             </div>
 
             {/* Heading */}
             <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] xl:text-6xl font-extrabold text-white leading-[1.1] mb-4 tracking-tight">
-              Next Generation
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-cyan-300 to-blue-400">
-                Power Saving Unit
-              </span>
+              {splitTitle.first}
+              {splitTitle.highlight && (
+                <>
+                  <br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-cyan-300 to-blue-400">
+                    {splitTitle.highlight}
+                  </span>
+                </>
+              )}
             </h1>
 
             {/* ecomo logo inline */}
@@ -66,46 +102,39 @@ const Hero = () => {
 
             {/* Description */}
             <p className="text-base md:text-lg text-blue-100/90 leading-relaxed mb-10 max-w-xl">
-              Unit hemat daya berteknologi mineral
-              <span className="text-cyan-300 font-semibold"> Tourmaline &amp; Ferrite </span>
-              paten Jepang — mampu mengurangi konsumsi listrik
-              <span className="text-white font-semibold"> 5–15% </span>
-              untuk perkantoran, industri, hotel, dan rumah sakit.
+              {description}
             </p>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 mb-14">
               <a
-                href="#contact"
+                href={ctaPrimary.href}
                 className="group inline-flex items-center justify-center gap-2.5
                            bg-gradient-to-r from-blue-500 to-blue-600
                            text-white font-semibold px-8 py-4 rounded-xl shadow-lg shadow-blue-500/25
                            hover:shadow-blue-500/40 hover:from-blue-400 hover:to-blue-500
                            active:scale-[0.98] transition-all duration-300"
               >
-                Hubungi Kami
+                {ctaPrimary.label}
                 <Icon icon="lucide:arrow-right" width={18} height={18}
                       className="group-hover:translate-x-1 transition-transform" />
               </a>
               <a
-                href="#product"
+                href="/Ecomo-Pamphlet-EN.pdf"
+                download="Ecomo Pamphlet (EN).pdf"
                 className="inline-flex items-center justify-center gap-2.5 border border-white/25
                            text-white font-semibold px-8 py-4 rounded-xl backdrop-blur-sm
                            hover:bg-white/10 hover:border-white/40 active:scale-[0.98] transition-all duration-300"
               >
-                <Icon icon="lucide:play-circle" width={18} height={18} />
-                Lihat Produk
+                <Icon icon="lucide:download" width={18} height={18} />
+                Download E-Brosur
               </a>
             </div>
 
             {/* Stats row */}
             <div className="flex flex-wrap gap-8 lg:gap-10">
-              {[
-                { value: 'Teknologi Paten Jepang', label: 'Satsuki Co., Ltd. — Osaka', icon: 'lucide:award' },
-                { value: 'Hemat 5–15%', label: 'Penghematan listrik terukur', icon: 'lucide:zap' },
-                { value: '3.000+ Unit', label: 'Terjual sejak 2003', icon: 'lucide:bar-chart-3' },
-              ].map((stat) => (
-                <div key={stat.label} className="flex items-start gap-3">
+              {stats?.map((stat, i) => (
+                <div key={i} className="flex items-start gap-3">
                   <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500/20 to-cyan-500/10
                                   border border-blue-400/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                     <Icon icon={stat.icon} className="text-cyan-300 w-5 h-5" />

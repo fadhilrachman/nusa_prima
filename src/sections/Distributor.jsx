@@ -3,7 +3,7 @@ import certificateImg from '../assets/certificate.png'
 
 const Distributor = () => {
   return (
-    <section className="section-padding bg-white relative overflow-hidden">
+    <section id='certificate' className="section-padding bg-white relative overflow-hidden">
       {/* Decorative background elements */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-50 rounded-bl-full -z-10" />
       <div className="absolute bottom-0 left-0 w-40 h-40 bg-blue-50 rounded-tr-full -z-10" />

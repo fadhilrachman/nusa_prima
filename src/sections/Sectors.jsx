@@ -1,23 +1,49 @@
 import { Icon } from '@iconify/react'
 import SectionTitle from '../components/SectionTitle'
-import { sectors } from '../data'
+import { sectors as defaultSectors } from '../data'
+import { useSiteStore } from '../store/useSiteStore'
 
 const Sectors = () => {
+  const getSectionData = useSiteStore((state) => state.getSectionData)
+  const sectorsSection = getSectionData('sectors')
+  const sectorsData = sectorsSection?.blocks?.[0] || null
+
+  const subtitle = sectorsData?.subtitle 
+  const title = sectorsData?.title 
+  const description = sectorsData?.description 
+
+  
+  const items = sectorsData?.items?.length 
+    ? sectorsData.items.map((item, index) => {
+        const parts = item.title.split(' - ')
+        const itemTitle = parts[0] ? parts[0].trim() : item.title
+        const itemDesc = parts[1] || item.description || ''
+        const defaultItem = defaultSectors[index] || defaultSectors[0]
+        
+        return {
+          id: item.id || index,
+          title: itemTitle,
+          description: itemDesc,
+          image: defaultItem.image,
+          icon: defaultItem.icon,
+        }
+      })
+    : []
+
   return (
     <section id="sectors" className="section-padding gradient-navy">
       <div className="container-custom">
         <div className="flex justify-center">
           <SectionTitle
-            subtitle="Sektor Bisnis"
-            title="Kami Melayani Berbagai Sektor"
-            description="Solusi energi kami dirancang untuk memenuhi kebutuhan spesifik setiap industri dengan pendekatan yang tepat sasaran."
+            subtitle={subtitle}
+            title={title}
+            description={description}
             light
-
           />
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sectors.map((sector) => (
+          {items.map((sector) => (
             <div
               key={sector.id}
               className="group relative rounded-2xl overflow-hidden shadow-md card-hover cursor-pointer"

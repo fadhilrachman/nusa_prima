@@ -1,8 +1,9 @@
 import { Icon } from '@iconify/react'
 import SectionTitle from '../components/SectionTitle'
+import { useSiteStore } from '../store/useSiteStore'
 import { productFeatures } from '../data'
 
-const lineup = [
+const defaultLineup = [
   {
     title: '3-Phase Individual Type',
     desc: 'Dirancang khusus untuk kebutuhan industri dan fasilitas skala besar dengan sistem kelistrikan 3-fase.',
@@ -17,49 +18,89 @@ const lineup = [
   }
 ]
 
-const ecoFeatures = [
+const defaultEcoFeatures = [
     {
-      title: 'Pengurangan CO2',
+      title: 'Pengurangan CO2 melalui efisiensi konsumsi listrik',
       desc: 'Dengan menghemat listrik menggunakan ecomo, kami mengurangi emisi CO2 dari pembakaran bahan bakar fosil dan berkontribusi pada pencegahan pemanasan global.',
       icon: 'lucide:leaf'
     },
     {
-      title: 'Instalasi Mudah',
+      title: 'Instalasi mudah dan cepat, sekitar 30 menit',
       desc: 'Pemasangan sangat praktis dan cepat, dapat diselesaikan dalam waktu sekitar 30 menit.',
       icon: 'lucide:settings-2'
     },
     {
-      title: 'Umur Desain 15 Tahun',
+      title: 'Umur desain hingga 15 tahun',
       desc: 'Didesain secara khusus untuk memiliki umur operasional yang panjang hingga 15 tahun.',
       icon: 'lucide:calendar-clock'
     },
     {
-      title: 'Aman & Terpercaya',
+      title: 'Aman karena tidak dilalui arus utama di unit',
       desc: 'Tidak ada listrik utama yang mengalir ke unit ecomo sehingga tidak menghasilkan panas. Daya disuplai langsung ke beban tanpa melalui ecomo.',
       icon: 'lucide:shield-check'
     },
     {
-      title: 'Dapat Dipindahkan',
+      title: 'Dapat dipindahkan saat relokasi fasilitas',
       desc: 'Jika pabrik atau kantor direlokasi, ecomo dapat dilepas dan dipasang kembali ke lokasi yang baru.',
       icon: 'lucide:move'
     },
     {
-      title: 'Garansi 7 Tahun',
+      title: 'Garansi kualitas 7 tahun',
       desc: 'Kami sangat yakin dengan kualitas produk kami, sehingga kami memberikan garansi kualitas selama 7 tahun penuh.',
       icon: 'lucide:award'
     }
 ]
 
+const defaultEcoIcons = [
+  'lucide:leaf', 'lucide:settings-2', 'lucide:calendar-clock', 
+  'lucide:shield-check', 'lucide:move', 'lucide:award'
+]
+
 const Product = () => {
+  const getSectionData = useSiteStore((state) => state.getSectionData)
+  const productSection = getSectionData('product')
+  const blocks = productSection?.blocks || []
+
+  const headerBlock = blocks[0] || {}
+  const subtitle = headerBlock.subtitle 
+  const title = headerBlock.title 
+  const description = headerBlock.description 
+
+  const lineup = [
+        {
+          title: blocks[1]?.title || defaultLineup[0].title,
+          desc: blocks[1]?.description || defaultLineup[0].desc,
+          img: blocks[1]?.image_url || defaultLineup[0].img,
+          type: 'Industrial'
+        },
+        {
+          title: blocks[2]?.title || defaultLineup[1].title,
+          desc: blocks[2]?.description || defaultLineup[1].desc,
+          img: blocks[2]?.image_url || defaultLineup[1].img,
+          type: 'Komersial / Residensial'
+        }
+      ]
+  
+
+  const featuresBlock = blocks[3]
+  const featuresTitle = featuresBlock?.description 
+  
+  const ecoFeatures = featuresBlock?.items?.map((item, idx) => ({
+        title: item.title,
+        desc: item.description,
+        icon: defaultEcoIcons[idx] || 'lucide:check'
+      }))
+   
+
   return (
     <section id="product" className="section-padding bg-white">
       <div className="container-custom">
         <div className="mb-24">
           <div className="flex justify-center mb-10">
             <SectionTitle
-              subtitle="Product "
-              title="Varian Produk ecomo"
-              description="ecomo hadir dalam berbagai tipe untuk memenuhi kebutuhan spesifik mulai dari fasilitas perumahan kecil hingga skala industri besar."
+              subtitle={subtitle}
+              title={title}
+              description={description}
               align="center"
             />
           </div>
@@ -86,20 +127,20 @@ const Product = () => {
 
            <div className="relative z-10 text-center mb-16">
              <div className="inline-block border-2 border-blue-900 rounded-full py-4 px-8 bg-blue-600 shadow-lg">
-               <h2 className="text-2xl lg:text-3xl font-black text-white m-0">
-                 Ecomo adalah unit penghemat daya yang mengurangi penggunaan listrik hingga 3-15%.
+               <h2 className="text-lg lg:text-2xl font-black text-white m-0">
+                 {featuresTitle}
                </h2>
              </div>
            </div>
 
            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-12 relative z-10">
-             {ecoFeatures.map((feature, idx) => (
+             {ecoFeatures?.map((feature, idx) => (
                 <div key={idx} className="flex flex-col">
                   <div className="flex items-center gap-4 mb-4">
-                     <Icon icon={feature.icon} width={32} height={32} className="text-white bg-white/20 p-1.5 rounded-lg" />
-                     <h3 className="text-xl font-bold">{feature.title}</h3>
+                     <Icon icon={feature.icon} width={32} height={32} className="text-white bg-white/20 p-1.5 rounded-lg flex-shrink-0" />
+                     <h3 className="text-lg font-bold">{feature.title}</h3>
                   </div>
-                  <p className="text-white/90 text-sm leading-relaxed">{feature.desc}</p>
+                  {feature.desc && <p className="text-white/90 text-sm leading-relaxed">{feature.desc}</p>}
                 </div>
              ))}
            </div>

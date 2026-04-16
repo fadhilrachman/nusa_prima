@@ -1,13 +1,31 @@
 import { Icon } from '@iconify/react'
 import SectionTitle from '../components/SectionTitle'
-
-const features = [
-  { icon: 'lucide:trending-down', text: 'Mendistribusikan ecomo — unit hemat daya yang mengurangi konsumsi listrik 5–15%' },
-  { icon: 'lucide:building',      text: 'Melayani gedung perkantoran, pabrik manufaktur, hotel, rumah sakit, dan department store' },
-  { icon: 'lucide:leaf',          text: 'Mendukung implementasi green building dan efisiensi energi jangka panjang yang berkelanjutan' },
-]
+import { useSiteStore } from '../store/useSiteStore'
 
 const About = () => {
+  const getSectionData = useSiteStore((state) => state.getSectionData)
+  const aboutSection = getSectionData('about')
+  const aboutData = aboutSection?.blocks?.[0] || null
+
+  const subtitle = aboutData?.subtitle 
+  const title = aboutData?.title 
+  const description = aboutData?.description 
+  const imageUrl = aboutData?.image_url 
+  
+  const defaultFeatures = [
+    { icon: 'lucide:trending-down', text: 'Mendistribusikan ecomo — unit hemat daya yang mengurangi konsumsi listrik 5–15%' },
+    { icon: 'lucide:building',      text: 'Melayani gedung perkantoran, pabrik manufaktur, hotel, rumah sakit, dan department store' },
+    { icon: 'lucide:leaf',          text: 'Mendukung implementasi green building dan efisiensi energi jangka panjang yang berkelanjutan' },
+  ]
+  const defaultIcons = ['lucide:trending-down', 'lucide:building', 'lucide:leaf']
+  const features = aboutData?.items?.length
+    ? aboutData.items.map((item, i) => ({
+        icon: defaultIcons[i] || 'lucide:check-circle',
+        text: item.title,
+      }))
+    : []
+    
+
   return (
     <section id="about" className="section-padding bg-white">
       <div className="container-custom">
@@ -16,7 +34,7 @@ const About = () => {
           <div className="relative">
             <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl">
               <img
-                src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=80"
+                src={imageUrl}
                 alt="Kantor PT Nusa Prima Energi Indonesia"
                 className="w-full h-80 object-cover"
               />
@@ -34,15 +52,22 @@ const About = () => {
           {/* Content */}
           <div>
             <SectionTitle
-              subtitle="Tentang Kami"
-              title="Mitra Terpercaya Distribusi ecomo di Indonesia"
+              subtitle={subtitle}
+              title={title}
               align="left"
             />
 
             <p className="text-gray-600 leading-relaxed mb-6">
-              PT Nusa Prima Energi Indonesia adalah distributor resmi unit hemat daya <strong>ecomo</strong> —
-              produk berpaten dari <a href="https://hayabusa-holdings.com" className='underline text-blue-600' target="_blank" rel="noopener noreferrer"><strong>Hayabusa Holdings</strong></a>, Jepang.
-             Kami berkomitmen menghadirkan solusi efisiensi energi yang telah teruji secara global untuk membantu bisnis Anda memangkas biaya operasional secara signifikan.
+              {description?.includes('Hayabusa Holdings') ? (
+                // Highlight Hayabusa Holdings like original code if description contains it
+                <>
+                  {description.split('Hayabusa Holdings')[0]}
+                  <a href="https://hayabusa-holdings.com" className='underline text-blue-600' target="_blank" rel="noopener noreferrer"><strong>Hayabusa Holdings</strong></a>
+                  {description.split('Hayabusa Holdings')[1]}
+                </>
+              ) : (
+                description
+              )}
             </p>
 
             <ul className="space-y-4">
@@ -55,8 +80,6 @@ const About = () => {
                 </li>
               ))}
             </ul>
-
-   
           </div>
         </div>
       </div>

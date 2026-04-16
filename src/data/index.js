@@ -3,10 +3,10 @@ export const navLinks = [
   { label: 'Home',          href: '#home' },
   { label: 'Tentang Kami',  href: '#about' },
   { label: 'Produk',        href: '#product' },
-  { label: 'Keunggulan',    href: '#advantages' },
+  { label: 'Sektor',    href: '#sectors' },
   { label: 'Cara Kerja',    href: '#how-it-works' },
-  { label: 'Case Study',    href: '#case-study' },
-  { label: 'Kontak',        href: '#contact' },
+  { label: 'Studi Kasus',    href: '#case-study' },
+  { label: 'Sertifikat',    href: '#certificate' },
 ]
 
 // ─── Business Sectors ────────────────────────────────────────────────────────

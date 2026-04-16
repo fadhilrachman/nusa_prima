@@ -26,6 +26,8 @@ export default {
       animation: {
         'fade-in-up': 'fadeInUp 0.6s ease-out forwards',
         'fade-in': 'fadeIn 0.6s ease-out forwards',
+        'spin-slow': 'spin 3s linear infinite',
+        'shimmer': 'shimmer 2s linear infinite',
       },
       keyframes: {
         fadeInUp: {
@@ -35,6 +37,10 @@ export default {
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
+        },
+        shimmer: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
         },
       },
     },

@@ -29,7 +29,7 @@ const Navbar = () => {
       <nav className="container-custom flex items-center justify-between h-20">
         {/* Logo */}
         <a href="#home" onClick={() => handleNavClick('#home')} className="flex items-center gap-3 group">
-          <Logo size={38} className="group-hover:scale-110 transition-transform duration-300 drop-shadow-md" />
+          <Logo size={38} className="group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
           <div className="leading-tight">
             <span className={`block font-bold text-sm ${scrolled ? 'text-navy-900' : 'text-white'}`}>
               PT. Nusa Prima Energi

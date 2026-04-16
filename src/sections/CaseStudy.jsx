@@ -1,42 +1,69 @@
 import { Icon } from '@iconify/react'
 import SectionTitle from '../components/SectionTitle'
-import { caseStudies } from '../data'
+import { useSiteStore } from '../store/useSiteStore'
+
+import g1 from '../assets/galery_photo/image1.jpeg'
+import g2 from '../assets/galery_photo/image2.jpeg'
+import g3 from '../assets/galery_photo/image3.jpeg'
+import g4 from '../assets/galery_photo/image4.jpeg'
+import g5 from '../assets/galery_photo/image5.jpeg'
+import g6 from '../assets/galery_photo/image6.jpeg'
+import g7 from '../assets/galery_photo/image7.jpeg'
+import g8 from '../assets/galery_photo/image8.jpeg'
+
+const galleryPhotos = [g1, g2, g3, g4, g5, g6, g7, g8]
 
 const CaseStudy = () => {
+  const getSectionData = useSiteStore((state) => state.getSectionData)
+  const caseSection = getSectionData('case_study')
+  const caseData = caseSection?.blocks?.[0] || null
+
+  const subtitle = caseData?.subtitle
+  const title = caseData?.title
+  const description = caseData?.description
+  const source = caseData?.extra?.source
+
+  const items = caseData?.items?.map((item, index) => {
+        try {
+          // Parsing: "Toyo Corporation (Jul 2018, 60kVA): 15% reduction"
+          const mainParts = item.title.split(':')
+          const infoPart = mainParts[0]
+          const reductionPart = mainParts[1]
+
+          const name = infoPart.split('(')[0]?.trim() || "Company"
+          const meta = infoPart.split('(')[1]?.replace(')', '') || ""
+          const date = meta.split(',')[0]?.trim() || ""
+          const unit = meta.split(',')[1]?.trim() || ""
+          const reduction = reductionPart?.match(/\d+/)?.[0] || "0"
+
+          return {
+            id: item.id || index,
+            name,
+            installDate: date,
+            unit,
+            reduction,
+            image: galleryPhotos[index % galleryPhotos.length]
+          }
+        } catch (e) {
+          return { id: index, name: item.title, installDate: '', unit: '', reduction: '0', image: galleryPhotos[index % galleryPhotos.length] }
+        }
+      }) || []
+
   return (
     <section id="case-study" className="section-padding gradient-navy">
       <div className="container-custom">
         <div className="flex justify-center">
           <SectionTitle
-            subtitle="Case Study"
-            title="Hasil Nyata dari Instalasi ecomo"
-            description="Berikut adalah contoh hasil penghematan energi yang telah dicapai di berbagai fasilitas industri di Jepang setelah instalasi ecomo."
+            subtitle={subtitle}
+            title={title}
+            description={description}
             light
           />
         </div>
 
-        {/* Stats highlight */}
-        {/* <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-14">
-          {[
-            { value: '3.000+', label: 'Unit Terjual', icon: 'lucide:package-check' },
-            { value: 'Sejak 2003', label: 'Pengalaman Global', icon: 'lucide:calendar' },
-            { value: '5–15%', label: 'Rata-rata Penghematan', icon: 'lucide:trending-down' },
-            { value: 'Jepang & Internasional', label: 'Pasar', icon: 'lucide:globe' },
-          ].map((s) => (
-            <div
-              key={s.label}
-              className="bg-white/10 border border-white/15 rounded-2xl p-5 text-center backdrop-blur-sm"
-            >
-              <Icon icon={s.icon} width={24} height={24} className="text-blue-300 mx-auto mb-3" />
-              <div className="text-white font-black text-xl leading-tight">{s.value}</div>
-              <div className="text-blue-300 text-xs mt-1">{s.label}</div>
-            </div>
-          ))}
-        </div> */}
-
         {/* Case study grid — pamphlet style */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {caseStudies.map((cs) => (
+          {items.map((cs) => (
             <div
               key={cs.id}
               className="group bg-white/10 border border-white/10 backdrop-blur-sm rounded-2xl overflow-hidden hover:bg-white/15 hover:-translate-y-1 transition-all duration-300 cursor-default"
@@ -62,7 +89,6 @@ const CaseStudy = () => {
                 <div className="space-y-1 mb-3">
                   <div className="flex items-center gap-1.5 text-blue-300 text-xs">
                     <Icon icon="lucide:calendar" width={11} height={11} className="flex-shrink-0" />
-                    {/* <span>Installation date · · · · {cs.installDate}</span> */}
                     <span>{cs.installDate}</span>
                   </div>
                   <div className="flex items-center gap-1.5 text-blue-300 text-xs">
@@ -74,7 +100,6 @@ const CaseStudy = () => {
                 {/* Bold reduction % — matches pamphlet style */}
                 <p
                   className="text-2xl text-emerald-400 font-black leading-none"
-                
                 >
                   {cs.reduction}% reduction
                 </p>
@@ -84,9 +109,9 @@ const CaseStudy = () => {
         </div>
 
         {/* Source note */}
-        <p className="text-center text-blue-400 text-xs mt-10">
-          * Data hasil instalasi berdasarkan catatan resmi Satsuki Co., Ltd., Osaka, Jepang — Pemegang hak paten ecomo.
-        </p>
+        {/* <p className="text-center text-blue-400 text-xs mt-10">
+          * {source}
+        </p> */}
       </div>
     </section>
   )

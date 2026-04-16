@@ -5,6 +5,7 @@ import installationImg from '../assets/installation.png'
 import safetyInnerImg from '../assets/safety-inner.png'
 import safetyOuterImg from '../assets/safety-outer.png'
 import SectionTitle from '../components/SectionTitle'
+import { useSiteStore } from '../store/useSiteStore'
 
 // SVG assets
 import cubicleImg from '../assets/howitworks/cubicle.svg'
@@ -171,10 +172,22 @@ const FlowDiagram = ({ variant = 'before' }) => {
   )
 }
 
-/* ═══════════════════════════════════════════════════════════════════════
-   HowItWorks — main section
-   ═══════════════════════════════════════════════════════════════════════ */
+
 const HowItWorks = () => {
+  const getSectionData = useSiteStore((state) => state.getSectionData)
+  const hiwSection = getSectionData('how_it_works')
+  const hiwData = hiwSection?.blocks?.[0] || null
+
+  const subtitle = hiwData?.subtitle
+  const title = hiwData?.title
+  const description = hiwData?.description
+
+  const beforeAfter = hiwData?.extra?.before_after
+  const currentData = beforeAfter?.current
+  const ecomoData = beforeAfter?.with_ecomo
+
+  const installSteps = hiwData?.items || []
+
   return (
     <section id="how-it-works" className="section-padding bg-gray-50">
       <style>{scopedStyles}</style>
@@ -183,14 +196,9 @@ const HowItWorks = () => {
         {/* ── Header ──────────────────────────────────────────────── */}
         <div className="flex justify-center">
           <SectionTitle
-            subtitle="Cara Kerja"
-            title="Meningkatkan Aliran Listrik"
-            description={
-              <>
-                Elektron yang dipancarkan oleh mineral <strong className="text-navy-800">Tourmaline</strong> meningkatkan
-                kualitas arus listrik di dalam kabel, sehingga mengurangi <em>power loss</em> secara signifikan.
-              </>
-            }
+            subtitle={subtitle}
+            title={title}
+            description={description}
           />
         </div>
 
@@ -216,7 +224,7 @@ const HowItWorks = () => {
 
               <div className="text-center">
                 <p className="text-gray-400 text-[10px] sm:text-xs uppercase tracking-wider font-medium mb-1">Power Loss</p>
-                <p className="text-4xl sm:text-5xl font-black text-red-500 leading-none">20<span className="text-2xl sm:text-3xl">%</span></p>
+                <p className="text-4xl sm:text-5xl font-black text-red-500 leading-none">{currentData?.loss_percent}<span className="text-2xl sm:text-3xl">%</span></p>
               </div>
             </div>
           </div>
@@ -245,7 +253,7 @@ const HowItWorks = () => {
 
               <div className="text-center">
                 <p className="text-gray-400 text-[10px] sm:text-xs uppercase tracking-wider font-medium mb-1">Power Loss Berkurang Sekitar</p>
-                <p className="text-4xl sm:text-5xl font-black text-emerald-500 leading-none">~10<span className="text-2xl sm:text-3xl">%</span></p>
+                <p className="text-4xl sm:text-5xl font-black text-emerald-500 leading-none">~{ecomoData?.loss_percent}<span className="text-2xl sm:text-3xl">%</span></p>
               </div>
             </div>
           </div>
@@ -375,24 +383,16 @@ const HowItWorks = () => {
               </div>
               
               <div className="flex flex-col gap-4">
-                <div className="bg-blue-900/40 rounded-xl p-4 border border-blue-400/20 shadow-inner">
-                  <div className="flex items-start gap-3 flex-row">
-                     <div className="w-7 h-7 rounded-full bg-blue-500/50 flex-shrink-0 flex items-center justify-center font-bold text-white border border-blue-400/50 text-sm">1</div>
-                     <p className="text-blue-50 text-sm md:text-base leading-relaxed">
-                       Hubungkan ke 3-phase (R/S/T) sisi sekunder transformator menggunakan terminal crimp. <span className="text-orange-300 font-medium">(Pemasangan ini biasanya memerlukan sedikit pemadaman sementara)</span>.
-                     </p>
-                  </div>
-                </div>
-
-                <div className="bg-blue-900/40 rounded-xl p-4 border border-blue-400/20 shadow-inner">
-                  <div className="flex items-start gap-3 flex-row">
-                     <div className="w-7 h-7 rounded-full bg-blue-500/50 flex-shrink-0 flex items-center justify-center font-bold text-white border border-blue-400/50 text-sm">2</div>
-                     <p className="text-blue-50 text-sm md:text-base leading-relaxed">
-                       Pasang dan kencangkan unit dengan kuat agar stabil dan tahan terhadap guncangan eksternal sesuai dengan standar instruksi.
-                     </p>
-                  </div>
-                </div>
-                
+                {
+                  installSteps?.map((step, idx) => (
+                    <div key={step.id || idx} className="bg-blue-900/40 rounded-xl p-4 border border-blue-400/20 shadow-inner">
+                      <div className="flex items-start gap-3 flex-row">
+                        <div className="w-7 h-7 rounded-full bg-blue-500/50 flex-shrink-0 flex items-center justify-center font-bold text-white border border-blue-400/50 text-sm">{idx + 1}</div>
+                        <p className="text-blue-50 text-sm md:text-base leading-relaxed">{step.title}</p>
+                      </div>
+                    </div>
+                  ))
+                }
                 <div className="mt-2 inline-flex items-start gap-2 bg-emerald-500/20 text-emerald-100 border border-emerald-400/30 px-4 py-3 rounded-xl text-sm font-medium">
                   <Icon icon="mdi:information" className="text-emerald-300 text-lg flex-shrink-0 mt-0.5" />
                   <span>Catatan Khusus: <span className="font-normal opacity-90">Untuk produk tipe Home Ecomo (skala rumahan) juga dapat dipasang langsung pada circuit breaker biasa.</span></span>
