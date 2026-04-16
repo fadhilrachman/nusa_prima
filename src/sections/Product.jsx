@@ -2,18 +2,20 @@ import { Icon } from '@iconify/react'
 import SectionTitle from '../components/SectionTitle'
 import { useSiteStore } from '../store/useSiteStore'
 import { productFeatures } from '../data'
+import Product1 from '../assets/product/product1.png'
+import Product2 from '../assets/product/product2.png'
 
 const defaultLineup = [
   {
     title: '3-Phase Individual Type',
     desc: 'Dirancang khusus untuk kebutuhan industri dan fasilitas skala besar dengan sistem kelistrikan 3-fase.',
-    img: 'https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=600&q=80',
+    img: Product1,
     type: 'Industrial'
   },
   {
     title: 'Home & Store ecomo Series',
     desc: 'Tersedia dalam ukuran S (5~30kVA) untuk fasilitas kecil/rumah, serta ukuran M~L untuk fasilitas menengah.',
-    img: 'https://images.unsplash.com/photo-1544724569-5f546fb6e665?w=600&q=80',
+    img: Product2,
     type: 'Komersial / Residensial'
   }
 ]
@@ -70,13 +72,13 @@ const Product = () => {
         {
           title: blocks[1]?.title || defaultLineup[0].title,
           desc: blocks[1]?.description || defaultLineup[0].desc,
-          img: blocks[1]?.image_url || defaultLineup[0].img,
+          img: Product1,
           type: 'Industrial'
         },
         {
           title: blocks[2]?.title || defaultLineup[1].title,
           desc: blocks[2]?.description || defaultLineup[1].desc,
-          img: blocks[2]?.image_url || defaultLineup[1].img,
+  img:Product2,          
           type: 'Komersial / Residensial'
         }
       ]

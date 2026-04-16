@@ -1,9 +1,8 @@
 import { Icon } from '@iconify/react'
 import tourmalineImg from '../assets/tourmaline.png'
 import ferriteImg from '../assets/ferrite.png'
-import installationImg from '../assets/installation.png'
-import safetyInnerImg from '../assets/safety-inner.png'
-import safetyOuterImg from '../assets/safety-outer.png'
+import safetyInnerImg from '../assets/howitworks/safety-inner.png'
+import safetyOuterImg from '../assets/howitworks/safety-outer.png'
 import SectionTitle from '../components/SectionTitle'
 import { useSiteStore } from '../store/useSiteStore'
 
@@ -445,12 +444,14 @@ const HowItWorks = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 h-full">
-                 <div className="rounded-xl overflow-hidden shadow-2xl border border-white/20 bg-white group-hover:scale-[1.02] transition-[transform,shadow] duration-500 hover:shadow-[0_0_30px_rgba(52,211,153,0.3)] flex items-center justify-center min-h-[160px] p-2">
-                   <img src={safetyInnerImg} alt="Inner Box Acryl Resin" className="w-full h-full object-contain drop-shadow-sm" />
+              <div className="grid grid-cols-2 gap-4 sm:gap-6 mt-4 lg:mt-0">
+                 <div className="rounded-2xl overflow-hidden shadow-2xl border border-white/20 bg-white group-hover:-translate-y-1 transition-all duration-500 hover:shadow-[0_10px_30px_rgba(52,211,153,0.3)] flex items-center justify-center aspect-[4/3] p-4 sm:p-6 relative">
+                   {/* <div className="absolute top-3 left-3 bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-0.5 rounded shadow-sm z-10 uppercase tracking-wider">Inner Resin</div> */}
+                   <img src={safetyInnerImg} alt="Inner Box Acryl Resin" className="w-full h-full object-contain drop-shadow-lg scale-110" />
                  </div>
-                 <div className="rounded-xl overflow-hidden shadow-2xl border border-white/20 bg-white group-hover:scale-[1.02] transition-[transform,shadow] duration-500 hover:shadow-[0_0_30px_rgba(96,165,250,0.3)] flex items-center justify-center min-h-[160px]">
-                   <img src={safetyOuterImg} alt="Outer Box Cast Nylon" className="w-full h-full object-cover" />
+                 <div className="rounded-2xl overflow-hidden shadow-2xl border border-white/20 bg-white group-hover:-translate-y-1 transition-all duration-500 hover:shadow-[0_10px_30px_rgba(96,165,250,0.3)] flex items-center justify-center aspect-[4/3] relative">
+                   {/* <div className="absolute top-3 right-3 bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded shadow-sm z-10 uppercase tracking-wider">Outer Nylon</div> */}
+                   <img src={safetyOuterImg} alt="Outer Box Cast Nylon" className="w-full h-full object-cover scale-105" />
                  </div>
               </div>
             </div>
