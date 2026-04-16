@@ -27,6 +27,50 @@ const App = () => {
 
   useEffect(() => {
     fetchSiteData()
+
+    const updateMeta = async () => {
+      try {
+        const res = await fetch('https://nusaprima.site.arnatech.id/api/public/site')
+        const data = await res.json()
+        const homePage = data.pages?.find(p => p.slug === 'home')
+        const tenantName = data.tenant?.name || 'PT Nusa Prima Energi'
+        
+        const metaTitle = homePage?.meta_title || homePage?.title 
+          ? `${homePage.title} — ${tenantName}`
+          : tenantName
+        document.title = metaTitle
+
+        if (homePage?.meta_description) {
+          let metaDesc = document.querySelector('meta[name="description"]')
+          if (!metaDesc) {
+            metaDesc = document.createElement('meta')
+            metaDesc.name = "description"
+            document.head.appendChild(metaDesc)
+          }
+          metaDesc.content = homePage.meta_description
+        }
+
+        const svgIcon = `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <clipPath id="diamond-clip"><polygon points="50,2 98,50 50,98 2,50" /></clipPath>
+          <polygon points="50,2 98,50 50,98 2,50" fill="#0d2563" />
+          <polygon points="50,2 98,50 50,50" fill="#2e7d1b" clipPath="url(#diamond-clip)" />
+          <polygon points="50,2 98,50 80,20" fill="#2e7d1b" />
+          <g transform="translate(50,50)"><polygon points="0,-22 3,-7 14,-14 7,-3 22,0 7,3 14,14 3,7 0,22 -3,7 -14,14 -7,3 -22,0 -7,-3 -14,-14 -3,-7" fill="white" opacity="0.95" /></g>
+        </svg>`
+        
+        let linkIcon = document.querySelector('link[rel="icon"]')
+        if (!linkIcon) {
+          linkIcon = document.createElement('link')
+          linkIcon.rel = "icon"
+          document.head.appendChild(linkIcon)
+        }
+        linkIcon.href = "data:image/svg+xml," + encodeURIComponent(svgIcon)
+        
+      } catch (err) {
+        console.error("Failed fetching metadata", err)
+      }
+    }
+    updateMeta()
   }, [fetchSiteData])
 
   if (loading && !siteData) {
