@@ -33,11 +33,7 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-3 mb-5">
-              <Logo size={38} className="drop-shadow-md" />
-              <div className="leading-tight">
-                <span className="block text-white font-bold text-sm">PT. Nusa Prima Energi</span>
-                <span className="block text-blue-400 text-xs">Indonesia</span>
-              </div>
+              <Logo size={52} className="drop-shadow-md" />
             </div>
             <p className="text-sm text-gray-400 leading-relaxed mb-6">
               Mitra terpercaya solusi hemat energi berbasis teknologi Jepang untuk bisnis Indonesia.

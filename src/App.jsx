@@ -108,17 +108,17 @@ const App = () => {
         <Hero />
         <About />
         <VisionMission />
+        <Values />
+        <Advantages />
 
         <Sectors />
         <Product />
         <ProductSpecs />
-        {/* <Advantages /> */}
         <HowItWorks />
         <CaseStudy />
-        {/* <Values /> */}
+        
         <Gallery />
         <Distributor />
-        {/* <TargetMarket /> */}
         <Contact />
       </main>
       <Footer />
