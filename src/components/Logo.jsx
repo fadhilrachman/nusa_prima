@@ -5,7 +5,7 @@ const Logo = ({ size = 120, className = '' }) => (
     src={logoImg}
     alt="PT Nusa Prima Energi Indonesia"
     style={{ width: size, height: 'auto' }}
-    className={`object-contain ${className}`}
+    className={`object-contain mix-blend-multiply ${className}`}
   />
 )
 

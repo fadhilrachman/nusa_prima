@@ -29,7 +29,7 @@ const Navbar = () => {
       <nav className="container-custom flex items-center justify-between h-20">
         {/* Logo */}
         <a href="#home" onClick={() => handleNavClick('#home')} className="flex items-center gap-3 group">
-          <Logo size={200} className="group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+          <Logo size={150} className="group-hover:scale-105 transition-transform duration-300 [filter:drop-shadow(0_0_6px_rgba(255,255,255,0.5))]" />
         </a>
 
         {/* Desktop Nav */}
