@@ -39,6 +39,15 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+
+    const emailInfo = defaultContactInfo.find(info => info.label.toLowerCase() === 'email')
+    const targetEmail = 'admin@nusaprimaenergi.com'
+
+    const subject = encodeURIComponent(`Pesan dari ${form.name}`)
+    const body = encodeURIComponent(`Nama: ${form.name}\nEmail: ${form.email}\nNo. Telepon: ${form.phone}\n\nPesan:\n${form.message}`)
+    
+    window.location.href = `mailto:${targetEmail}?subject=${subject}&body=${body}`
+
     setSubmitted(true)
     setTimeout(() => setSubmitted(false), 4000)
     setForm({ name: '', email: '', phone: '', message: '' })
