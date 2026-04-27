@@ -51,9 +51,9 @@ const Hero = () => {
   const description = heroData?.description || "Unit hemat daya berteknologi mineral Tourmaline & Ferrite paten Jepang — mampu mengurangi konsumsi listrik 5–15% untuk perkantoran, industri, hotel, dan rumah sakit."
   
   const defaultStats = [
-    { value: 'Teknologi Paten Jepang', label: 'Satsuki Co., Ltd. — Osaka', icon: 'lucide:award' },
-    { value: 'Hemat 5–15%', label: 'Penghematan listrik terukur', icon: 'lucide:zap' },
-    { value: '3.000+ Unit', label: 'Terjual sejak 2003', icon: 'lucide:bar-chart-3' },
+    { value: 'Teknologi Paten Jepang', label: 'Hayabusa Holdings', href: 'https://hayabusa-holdings.com/', icon: 'lucide:award' },
+    { value: 'Penghematan ', label: '5–15%', icon: 'lucide:zap' },
+    { value: 'Terjual ', label: '3.000+ Unit sejak 2003', icon: 'lucide:bar-chart-3' },
   ]
   const defaultIcons = ['lucide:award', 'lucide:zap', 'lucide:bar-chart-3']
 
@@ -208,7 +208,7 @@ const Hero = () => {
 
             {/* Stats row */}
             <div className="flex flex-wrap gap-8 lg:gap-10">
-              {stats?.map((stat, i) => (
+              {defaultStats?.map((stat, i) => (
                 <div key={i} className="flex items-start gap-3">
                   <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500/20 to-cyan-500/10
                                   border border-blue-400/20 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -216,7 +216,18 @@ const Hero = () => {
                   </div>
                   <div>
                     <div className="text-lg font-bold text-white leading-tight">{stat.value}</div>
-                    <div className="text-blue-200/70 text-sm mt-0.5">{stat.label}</div>
+                    {stat.href ? (
+                      <a
+                        href={stat.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-200/70 text-sm mt-0.5 underline underline-offset-2 hover:text-cyan-300 transition-colors duration-200"
+                      >
+                        {stat.label}
+                      </a>
+                    ) : (
+                      <div className="text-blue-200/70 text-sm mt-0.5">{stat.label}</div>
+                    )}
                   </div>
                 </div>
               ))}

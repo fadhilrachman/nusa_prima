@@ -14,8 +14,8 @@ export const sectors = [
   {
     id: 1,
     title: 'Pabrik / Plant',
-    description: 'Solusi efisiensi energi skala besar untuk sektor manufaktur dan industri berat.',
-    image: 'https://images.unsplash.com/photo-1513828583688-c52646db42da?w=600&q=80',
+    description: 'Solusi efisiensi energi skala besar untuk lini perakitan otomotif dan industri manufaktur berat.',
+    image: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&q=80',
     icon: 'mdi:factory',
   },
   {
@@ -52,6 +52,20 @@ export const sectors = [
     description: 'Efisiensi energi untuk pusat hiburan, mall, dan fasilitas rekreasi berskala besar.',
     image: 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=600&q=80',
     icon: 'mdi:ferris-wheel',
+  },
+  {
+    id: 7,
+    title: 'Hotel & Hospitality',
+    description: 'Tekan biaya energi operasional hotel tanpa mengorbankan kenyamanan tamu — dari HVAC hingga laundry.',
+    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80',
+    icon: 'mdi:bed',
+  },
+  {
+    id: 8,
+    title: 'Data Center',
+    description: 'Stabilkan kualitas daya dan kurangi konsumsi energi pada fasilitas data center yang beroperasi 24/7.',
+    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80',
+    icon: 'mdi:server',
   },
 ]
 

@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react'
 import SectionTitle from '../components/SectionTitle'
-import { sectors as defaultSectors } from '../data'
+import { sectors as defaultSectors, sectors } from '../data'
 import { useSiteStore } from '../store/useSiteStore'
 
 const Sectors = () => {
@@ -13,22 +13,25 @@ const Sectors = () => {
   const description = sectorsData?.description 
 
   
-  const items = sectorsData?.items?.length 
-    ? sectorsData.items.map((item, index) => {
-        const parts = item.title.split(' - ')
-        const itemTitle = parts[0] ? parts[0].trim() : item.title
-        const itemDesc = parts[1] || item.description || ''
-        const defaultItem = defaultSectors[index] || defaultSectors[0]
+  // const items = sectorsData?.items?.length 
+  //   ? sectorsData.items.map((item, index) => {
+  //       const parts = item.title.split(' - ')
+  //       const itemTitle = parts[0] ? parts[0].trim() : item.title
+  //       const itemDesc = parts[1] || item.description || ''
+  //       const defaultItem = defaultSectors[index] || defaultSectors[0]
         
-        return {
-          id: item.id || index,
-          title: itemTitle,
-          description: itemDesc,
-          image: defaultItem.image,
-          icon: defaultItem.icon,
-        }
-      })
-    : []
+  //       return {
+  //         id: item.id || index,
+  //         title: itemTitle,
+  //         description: itemDesc,
+  //         image: defaultItem.image,
+  //         icon: defaultItem.icon,
+  //       }
+  //     })
+  //     : []
+
+    
+  const items = sectors
 
   return (
     <section id="sectors" className="section-padding gradient-navy">
